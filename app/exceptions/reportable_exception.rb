@@ -1,0 +1,2 @@
+class ReportableException < AppException
+end

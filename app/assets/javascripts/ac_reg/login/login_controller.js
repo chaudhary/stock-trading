@@ -68,14 +68,14 @@ angular.module('AcLogin').controller('LoginController', ['$scope', '$http', '$ti
       method: 'POST',
       url: '/password',
       data: $scope.passwordForm
-    }).success(function(response){
+    }).then(function(response){
       $scope.loadingPasswordSubmit = false;
       $scope.successMsgPassword = response.server_message;
       recordAnalyticsEvent("Password", "Forgot Password");
       $timeout(function () {
         $scope.loadingPasswordSubmit = null;
       }, 10000);
-    }).error(function(response){
+    }, function(response){
       $scope.errorMsgPassword = response.server_message;
       $scope.loadingPasswordSubmit = false;
       $timeout(function () {
@@ -99,10 +99,10 @@ angular.module('AcLogin').controller('LoginController', ['$scope', '$http', '$ti
       method: 'POST',
       url: '/signin',
       data: {user: $scope.loginForm, authenticity_token: csrf_token}
-    }).success(function(response){
+    }).then(function(response){
       $scope.successMsgLogin = "Successfully logged in";
       $window.location.href = response.redirect_url;
-    }).error(function (response) {
+    }, function (response) {
       $scope.loadingLoginSubmit = false;
       $scope.loginForm.password = null;
       $scope.passwordForm.email = $scope.loginForm.email;

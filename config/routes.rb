@@ -2,6 +2,8 @@ StockTrading::Application.routes.draw do
   root :to => 'registration#index'
   get 'contributions/sneak_peek' => 'contributions#sneak_peek', as: :sneak_peek_posts
 
+  post 'signin'  => 'registration#signin'
+
   devise_scope :user do
     post '/password' => 'users/passwords#create'
     get '/password/edit' => 'users/passwords#edit'#compatibility route, can be removed after 10th Jan, 2017
