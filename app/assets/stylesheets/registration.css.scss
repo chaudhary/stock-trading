@@ -1,0 +1,45 @@
+.global_signup{
+  input[type="radio"]{
+    position: relative;
+    top: 1px;
+    margin: 0px;
+  }
+  .mti_wrapper{
+    .token-input-list, .token-input-list-horizontal{
+      border: 1px solid #adc4bf;
+      &.token-input-focused, &.token-input-focused-horizontal{
+        border-color: #7bc798;
+        outline: 1px solid rgba(123, 199, 152, 0.4);
+      }
+    }
+    &.error{
+      .token-input-list, .token-input-list-horizontal{
+        border: 1px solid red;
+      }
+    }
+  }
+  .label{
+    float: left;width: 30%;text-transform: uppercase;font-weight: 600;padding: 5px;box-sizing: border-box;
+    @media screen and (max-width: 500px) {
+      width: 100%;
+      padding: 5px 0px;
+    }
+  }
+  .input{
+    float: left;width: 70%;
+    @media screen and (max-width: 500px) {
+      width: 100%;
+    }
+  }
+  .input_text{
+    width: 100%;padding: 5px;box-sizing: border-box;
+    border: 1px solid #adc4bf;
+    &.error{
+      border-color: red;
+    }
+    &:focus{
+      border-color: #7bc798;
+      outline: 1px solid rgba(123, 199, 152, 0.4);
+    }
+  }
+}

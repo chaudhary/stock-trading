@@ -1,0 +1,97 @@
+<div style="max-width:600px;width:100%;margin:auto;padding:0px 16px;padding: 20px;" class="global_signup">
+  <div style="font-size: 18px;font-weight: 600;text-align: center;padding: 20px;">
+    Login / Sign-Up to StockTrading
+  </div>
+
+  <div style="background:#f3fff8;padding:32px;">
+    <div style="float: left;border-right: 1px solid #acc4bf;padding-right: 20px;width: 50%;" class="border-box">
+      <div style="font-size: 14px;color: #000;padding: 20px 0px;">
+        Signed up with Facebook or Linkedin?
+      </div>
+
+      <div ng-click="signupwithFacebook()" style="padding-bottom: 8px;display: block;">
+        <div ac-fb-button data-opts="{text: 'Login With Facebook'}"></div>
+      </div>
+
+      <div ng-click="signupwithLinkedin()" style="display: block;">
+        <div ac-ln-button data-opts="{text: 'Login With Linkedin'}"></div>
+      </div>
+
+      <div style="font-size: 13px;line-height: 18px;color: #888;text-align: left;margin: 20px auto;max-width: 235px;">
+        By signing up you indicate that you have read and agree to the
+        <a href="http://www.almaconnect.com/terms_of_use" target="_blank" class="ac_link" style="color: #00bfa9;">Terms of Use</a>
+         and
+        <a href="http://www.almaconnect.com/privacy_policy_20120807.pdf" target="_blank" class="ac_link" style="color: #00bfa9;">Privacy Policy</a>
+      </div>
+    </div>
+
+    <div ng-controller="LoginController" style="float: left;padding-left: 20px;width: 50%;" class="border-box">
+      <div ng-custom-if="!(show_password_form)">
+        <form ng-submit="submitLoginForm()">
+          <div style="position: relative;">
+            <input type="text" class="input_text" placeholder="Email ID (Username)" ng-model="loginForm.email" ng-class="{false: 'error'}[!(errors.email)]" />
+            <span ng-custom-if="errors.email" style="color: red;">{{errors.email}}</span>
+          </div>
+
+          <div style="position: relative;padding-top: 10px;">
+            <input type="password" class="input_text" placeholder="Password" ng-model="loginForm.password" ng-class="{false: 'error'}[!(errors.password)]" />
+            <span ng-custom-if="errors.password" style="color: red;">{{errors.password}}</span>
+          </div>
+          <input type="submit" value="submit" style="display: none;" />
+        </form>
+
+        <div style="position: relative;">
+          <div style="color: #00bfa9;font-weight: 600;" class="ac_link" ng-click="showPasswordForm()">
+            Forgot Password?
+          </div>
+
+          <div ng-show="loadingLoginSubmit" style="width: 25px;position: absolute;top: 4px;right: 26px;">
+            <img src="<%= asset_path('loader.gif') %>" style="max-width: 100%;" />
+          </div>
+        </div>
+
+        <div style="padding-top:16px;">
+          <div>
+            <input class="ac_button" style="width:100%;" ng-click="submitLoginForm()" type="submit" name="commit" value="LOGIN" ng-disabled="loading" />
+          </div>
+          <div ng-custom-if="errorMsgLogin" style="padding-bottom:0px;color: red;">
+            {{errorMsgLogin}}
+          </div>
+        </div>
+      </div>
+
+
+      <div ng-custom-if="show_password_form">
+        <div style="font-weight: 600;font-size: 15px;color: #000;">Forget password?</div>
+        <div style="padding-bottom:8px;font-size: 13px;color: #666;">Submit your username(email id) to reset</div>
+
+        <form style="position: relative;padding-bottom: 8px;" ng-submit="submitPasswordForm()">
+          <input type="text" class="input_text" placeholder="me@example.com" ng-model="passwordForm.email" ng-class="{false: 'error'}[!(errors.email)]" />
+          <span ng-custom-if="errors.email" style="color: red;">{{errors.email}}</span>
+        </form>
+
+        <div style="position: relative;">
+          <div class="ac_button" ng-click="submitPasswordForm()">
+            Submit
+          </div>
+          <div ng-show="loadingPasswordSubmit" style="width: 25px;position: absolute;top: 4px;right: -28px;">
+            <img src="<%= asset_path('loader.gif') %>" style="max-width: 100%;" />
+          </div>
+        </div>
+
+        <div ng-custom-if="successMsgPassword" style="padding-top:8px;color: #00bfa9;">
+          {{successMsgPassword}}
+        </div>
+        <div ng-custom-if="errorMsgPassword" style="padding-top:8px;color: red;">
+          {{errorMsgPassword}}
+        </div>
+      </div>
+
+    </div>
+
+    <div style="clear: both;"></div>
+
+  </div>
+
+
+</div>

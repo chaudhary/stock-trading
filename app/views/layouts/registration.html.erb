@@ -1,0 +1,12 @@
+<%= render layout: 'layouts/head' do %>
+
+  <div class="layout_960" style="position: relative;">
+    <%= yield %>
+  </div>
+
+  <script type="text/javascript">
+    head.js('<%= javascript_path('plugins/ac-plugins') %>',
+            '<%= javascript_path('ac_common/ac_common') %>',
+            '<%= javascript_path('ac_reg/ac_reg') %>');
+  </script>
+<%- end %>

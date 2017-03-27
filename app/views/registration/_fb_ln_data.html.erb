@@ -1,0 +1,27 @@
+<div style="border: 1px solid #bbb;padding: 10px;">
+  <div style="float: left;">
+    <img ng-src="{{authentication.image_url}}" style="max-height: 40px;max-width: 40px;" ng-show="authentication.image_url" />
+    <img ng-src="<%= asset_path('default/profile/profile.jpg') %>" style="max-height: 40px;max-width: 40px;" ng-hide="authentication.image_url" />
+  </div>
+
+  <div style="font-size: 14px;color: #000;padding-left: 50px;">
+    <div>
+      <span style="width: 60px;display: inline-block;">
+        Name:
+      </span>
+      <span>
+        {{authentication.name}}
+      </span>
+    </div>
+    <div>
+      <span style="width: 60px;display: inline-block;">
+        Email:
+      </span>
+      <span>
+        {{authentication.email}}
+      </span>
+    </div>
+  </div>
+
+  <div style="clear: both;"></div>
+</div>

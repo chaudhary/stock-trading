@@ -1,0 +1,57 @@
+defaults: &defaults
+  urls:
+    facebook: Facebook
+    linkedin: public_profile
+  google:
+    app_key: '229584270178-les811j7c49vl8nmotuq6nnkv9l6f3uj.apps.googleusercontent.com'
+    secret: 'EVnbOCWpN1pj7u5OChCcFMcL'
+  yahoo:
+    app_key: 'dj0yJmk9RFVnMVNtV3FMbHBjJmQ9WVdrOVNWUjBNRXBYTldVbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD05ZQ--'
+    secret: '1ca213e554ab43f4094d360afc31141cb03b9734'
+  hotmail:
+    app_key: '0000000040170B18'
+    secret: 'ibNfzTJfWiekNZHCtMppH43MumdVeVom'
+  linkedin:
+    app_key: 'wy-MqkVnGIkys9_OzXZECdjtRSpE2g5jCptg64r6RMYTOx4NHNxnb5IilVUuYlpR'
+    secret: 'zcXZ0hbrbmtoouAb8S9sIgZ69TLye-nBZZRM8N7Y99ZC7NbczDL9ik3vavyeDKzl'
+  instagram:
+    app_key: '4f29051327a440fabefb540c3117022e'
+    secret: '37b978a4664c4d8eb3392b0a0abce2db'
+  facebook:
+    app_key: '441690892614943'
+    secret: 'c5bfe529ca0801ece51ae1f2d9c97687'
+    verify_token: 'almaconnect'
+  facebook_share:
+    app_key: '339489249409764'
+    secret: 'af0d866efb98ab87b29aaf1b770cdd82'
+
+development: &development
+  <<: *defaults
+
+test: &test
+  <<: *defaults
+
+production: &production
+  <<: *defaults
+  google:
+    app_key: '229584270178-les811j7c49vl8nmotuq6nnkv9l6f3uj.apps.googleusercontent.com'
+    secret: 'EVnbOCWpN1pj7u5OChCcFMcL'
+  yahoo:
+    app_key: 'dj0yJmk9QXRGM2h2ZGxLaHpRJmQ9WVdrOU4zcEZObUY2TXpnbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1iMw--'
+    secret: '3cbd680590d138ec1113797f7aa271f0200b364d'
+  hotmail:
+    app_key: '0000000048171D65'
+    secret: 'PYU2p4ROJgDdE9ezg8vmB5DBhhK9i6pq'
+  linkedin:
+    app_key: 'otgi7ms401w1'
+    secret: 'RjedlIpKQEWqK1gs'
+  facebook:
+    app_key: '263794810302279'
+    secret: 'ed123911e9f1505351e56953ffcfb8c4'
+    verify_token: 'almaconnect'
+  facebook_share:
+    app_key: '339489249409764'
+    secret: 'af0d866efb98ab87b29aaf1b770cdd82'
+
+staging: &staging
+  <<: *development
