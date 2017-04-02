@@ -5,17 +5,12 @@ class UserRequest
   devise :database_authenticatable
   field :encrypted_password, type: String
 
+  field :token, type: String
+
   field :name, type: String
   field :email, type: String
   field :profile_title, type: String
   field :dob, type: Date
-
-  field :is_official, type: Boolean
-  field :about, type: String
-  field :contact_info, type: String
-
-  belongs_to :current_city, class_name: 'Location', inverse_of: nil
-  belongs_to :currently_at, class_name: 'Institution', inverse_of: nil
 
   embeds_many :authentications, cascade_callbacks: true, as: :authenticatable
 
@@ -26,6 +21,20 @@ class UserRequest
   index :email, background: true, unique: true
 
   validate :email_taken?
+  before_save :generate_token
+
+  def generate_token
+    token = self.token
+    return token if token.present?
+
+    token = self.class.token
+    self.token = token
+    return token
+  end
+
+  def self.token
+    TokenUtility.unique_token(self, 'token')
+  end
 
   def email_taken?
     if ::User.where(:emails.matches => {:email => self.email, :confirmed_at.gt => Time.at(0)}).present?
@@ -40,10 +49,6 @@ class UserRequest
     return true
   end
 
-
-  def request_logs
-    @request_logs ||= ::UserRequestLog::Base.where(:email => self.email)
-  end
 
   def valid_token?(token)
     request_logs.where(:token => token).present?

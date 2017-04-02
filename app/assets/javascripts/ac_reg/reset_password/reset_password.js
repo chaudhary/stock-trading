@@ -45,7 +45,6 @@ function ($scope, $http, $timeout) {
       $timeout(function () {
         window.location = response.redirect_url;
       }, 5000);
-      recordAnalyticsEvent("Password", "Password Changed");
     }).error(function(response){
       $scope.loadingPasswordSubmit = false;
       $scope.error_message = response.server_message;

@@ -3,7 +3,11 @@
     Login / Sign-Up to StockTrading
   </div>
 
-  <div style="background:#f3fff8;padding:32px;">
+  <div style="background:#f3fff8;padding:32px;" ng-custom-if="state.hidePrimaryOptions">
+    <%= render "/registration/signup_form"%>
+  </div>
+
+  <div style="background:#f3fff8;padding:32px;" ng-custom-if="!(state.hidePrimaryOptions)">
     <div style="float: left;border-right: 1px solid #acc4bf;padding-right: 20px;width: 50%;" class="border-box">
       <div style="font-size: 14px;color: #000;padding: 20px 0px;">
         Signed up with Facebook or Linkedin?

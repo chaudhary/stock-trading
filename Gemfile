@@ -47,8 +47,6 @@ group :assets do
   gem 'uglifier'
 end
 
-gem 'jquery-rails'
-
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -63,3 +61,9 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+group :development do
+  gem 'pry-rails'
+  gem 'pry-byebug'
+  gem 'pry-doc'
+end

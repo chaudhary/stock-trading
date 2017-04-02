@@ -47,15 +47,11 @@ angular.module('Registration').controller('RegistrationController',['$scope','$h
     }).success(function(response){
       $scope.creating_user = false;
       $scope.success_message = response.server_message;
-      recordRegAnalytics($scope.network_page, "SignupPage UserRequestCreated", $scope.reg_via);
 
       if(response.redirect_url){
         $timeout(function(){
           window.location = response.redirect_url;
         }, 5000);
-        recordRegAnalytics($scope.network_page, "SignupPage UserCreated", $scope.reg_via, function(){
-          window.location = response.redirect_url;
-        });
       }
     }).error(function(response){
       $scope.creating_user = false;
@@ -78,9 +74,6 @@ angular.module('Registration').controller('RegistrationController',['$scope','$h
       $timeout(function(){
         window.location = response.redirect_url;
       }, 5000);
-      recordRegAnalytics($scope.network_page, "SignupPage UserCreated", $scope.reg_via, function(){
-        window.location = response.redirect_url;
-      });
     }else{
       window.location = response.redirect_url;
     }
@@ -109,23 +102,20 @@ angular.module('Registration').controller('RegistrationController',['$scope','$h
   };
 
   $scope.signupwithLinkedin = function(){
-    window.open('/profiles/social_sync/linkedin/user_signup/', 'Linkedin permissions',
+    window.open('/social_sync/linkedin/user_signup/', 'Linkedin permissions',
         'width=600,height=422,scrollbars,top=50,ScreenY=250,left=50,ScreenX=300');
     $scope.reg_via = "linkedin";
-    recordRegAnalytics($scope.network_page, "SignupPage OptionSelected", $scope.reg_via);
   };
 
   $scope.signupwithFacebook = function(){
-    window.open('/profiles/social_sync/facebook/user_signup', 'Facebook permissions',
+    window.open('/social_sync/facebook/user_signup', 'Facebook permissions',
         'width=600,height=422,scrollbars,top=50,ScreenY=250,left=50,ScreenX=300');
     $scope.reg_via = "facebook";
-    recordRegAnalytics($scope.network_page, "SignupPage OptionSelected", $scope.reg_via);
   };
 
   $scope.signupwithEmail = function(){
     $scope.state.hidePrimaryOptions = true;
     $scope.reg_via = "email";
-    recordRegAnalytics($scope.network_page, "SignupPage OptionSelected", $scope.reg_via);
   };
 
 

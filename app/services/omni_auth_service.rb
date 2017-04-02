@@ -2,10 +2,9 @@ class OmniAuthService
 
   USER_SIGNUP = 'user_signup'
 
-  def initialize(auth_data, metadata, college, user=nil)
+  def initialize(auth_data, metadata, user=nil)
     @auth_hash = build_auth_hash(auth_data)
     @metadata = metadata
-    @college = college
     @user = user
   end
 
@@ -85,26 +84,7 @@ class OmniAuthService
 
   def build_auth_hash(auth_data)
     provider = auth_data['provider']
-    headline = auth_data.try(:[], :extra).try(:[], :raw_info).try(:[], :headline)
-    profile_title, currently_at_name = headline.split(" at ") if headline.present?
 
-    if auth_data.try(:[], :extra).try(:[], :raw_info).try(:[], :work).present? && currently_at_name.blank?
-      last_profession = auth_data[:extra][:raw_info][:work].select{|work| work[:end_date].blank?}.last
-      currently_at_name = last_profession[:employer][:name] if last_profession.present?
-      profile_title = last_profession[:position].try(:[], :name) if last_profession.present?
-    end
-    if auth_data.try(:[], :extra).try(:[], :raw_info).try(:[], :education).present? && currently_at_name.blank?
-      last_education = auth_data[:extra][:raw_info][:education].select{|education| education[:year].blank? || education[:year][:name].to_i > Time.now.year}.last
-      currently_at_name = last_education[:school][:name] if last_education.present?
-      profile_title = "Student" if last_education.present?
-    end
-
-    currently_at = ::Institution.create_institute(currently_at_name) if currently_at_name.present?
-    currently_at = {id: currently_at.id, name: currently_at.name} if currently_at
-
-    current_city_name = auth_data.try(:[], :extra).try(:[], :raw_info).try(:[], :location).try(:[], :name)
-    current_city = ::Location.ln_search(current_city_name) if current_city_name.present?
-    current_city = {id: current_city.id, name: current_city.location_string} if current_city.present?
     {
       name: auth_data['info']['name'],
       email: auth_data.try(:[], 'info').try(:[], 'email'),
@@ -115,10 +95,6 @@ class OmniAuthService
       auth_token: auth_data['credentials']['token'],
       auth_secret: (auth_data['credentials']['secret'] || auth_data['credentials']['refresh_token']),
       expires_at: auth_data['credentials']['expires_at'],
-      headline: headline,
-      profile_title: profile_title,
-      currently_at: currently_at,
-      current_city: current_city
     }
   end
 

@@ -1,0 +1,96 @@
+<div ng-custom-if="authentication" style="margin-bottom: 20px;">
+  <%= render "/registration/fb_ln_data"%>
+</div>
+
+<div style="position: relative;">
+  <div class="label">
+    Name
+  </div>
+  <div class="input">
+    <input type="text" class="input_text" placeholder="Name" ng-model="userForm.name" ng-class="{false: 'error'}[!(errors.name)]" />
+    <span ng-custom-if="errors.name" style="color: red;">{{errors.name}}</span>
+  </div>
+  <div style="clear: both;"></div>
+</div>
+
+<div style="position: relative;padding-top: 16px;">
+  <div class="label">
+    Email
+  </div>
+  <div class="input">
+    <input type="text" class="input_text" placeholder="me@domain.com" ng-model="userForm.email"
+      ng-class="{false: 'error'}[!(errors.email)]" />
+    <span ng-custom-if="errors.email" style="color: red;">{{errors.email}}</span>
+  </div>
+  <div style="clear: both;"></div>
+</div>
+
+<div style="position: relative;padding-top: 16px;">
+  <div class="label">
+    Date of Birth
+  </div>
+  <div class="input">
+    <div style="display: block;width: calc(33.33% - 10px);float: left;">
+      <select ng-options="day as day for day in days" ng-model="userForm.dob_day"
+        style="padding: 4px;width: 100%;" class="input_text" ng-class="{false: 'error'}[!(errors.dob_day)]">
+        <option value="">Day</option>
+      </select>
+    </div>
+    <div style="display: block;width: calc(33.33% - 10px);float: left;padding: 0px 15px;">
+      <select ng-options="month.id as month.name for month in months" ng-model="userForm.dob_month"
+        style="padding: 4px;width: 100%;" class="input_text"  ng-class="{false: 'error'}[!(errors.dob_month)]">
+        <option value="">Month</option>
+      </select>
+    </div>
+    <div style="display: block;width: calc(33.33% - 10px);float: left;">
+      <select ng-options="year as year for year in years" ng-model="userForm.dob_year"
+        style="padding: 4px;width: 100%;" class="input_text" ng-class="{false: 'error'}[!(errors.dob_year)]">
+        <option value="">Year</option>
+      </select>
+    </div>
+    <div ng-custom-if="errors.dob_day" style="color: red;">{{errors.dob_day}}</div>
+    <div ng-custom-if="errors.dob_month" style="color: red;">{{errors.dob_month}}</div>
+    <div ng-custom-if="errors.dob_year" style="color: red;">{{errors.dob_year}}</div>
+  </div>
+  <div style="clear: both;"></div>
+</div>
+
+<div style="position: relative;padding-top: 16px;">
+  <div class="label">
+    Password
+  </div>
+  <form class="input" ng-submit="createAccount()">
+    <input type="password" class="input_text" placeholder="Password"  ng-class="{false: 'error'}[!(errors.password)]"
+      ng-model="userForm.password" />
+    <span ng-custom-if="errors.password" style="color: red;">{{errors.password}}</span>
+  </form>
+  <div style="clear: both;"></div>
+</div>
+
+<div style="position: relative;padding-top: 16px;">
+  <div class="label">
+    <div style="float: right;margin-right: 20px;" ng-show="creating_user">
+      <img src="<%= asset_path('loader.gif') %>" style="max-width: 20px;display: block;">
+    </div>
+  </div>
+  <div class="input">
+    <div>
+      You agree to our
+      <a href="http://www.almaconnect.com/terms_of_use" target="_blank" class="ac_link" style="color: #00bfa9;">Terms of Use</a>
+       and
+      <a href="http://www.almaconnect.com/privacy_policy_20120807.pdf" target="_blank" class="ac_link" style="color: #00bfa9;">Privacy Policy</a>
+      by clicking on the "SUBMIT" button.
+    </div>
+    <div class="ac_button" style="float: left;margin-top: 8px;" ng-click="createAccount()">
+      Submit
+    </div>
+    <div ng-custom-if="success_message" style="clear: both;padding-top: 10px;color: #00bfa9;">
+      {{success_message}}
+    </div>
+    <div ng-custom-if="error_message" style="clear: both;padding-top: 10px;color: red;">
+      {{error_message}}
+    </div>
+  </div>
+  <div style="clear: both;"></div>
+</div>
+

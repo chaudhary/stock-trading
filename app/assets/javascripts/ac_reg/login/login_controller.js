@@ -68,15 +68,14 @@ angular.module('AcLogin').controller('LoginController', ['$scope', '$http', '$ti
       method: 'POST',
       url: '/password',
       data: $scope.passwordForm
-    }).then(function(response){
+    }).success(function(response){
       $scope.loadingPasswordSubmit = false;
-      $scope.successMsgPassword = response.server_message;
-      recordAnalyticsEvent("Password", "Forgot Password");
+      $scope.successMsgPassword = response.data.server_message;
       $timeout(function () {
         $scope.loadingPasswordSubmit = null;
       }, 10000);
-    }, function(response){
-      $scope.errorMsgPassword = response.server_message;
+    }).error(function(response){
+      $scope.errorMsgPassword = response.data.server_message;
       $scope.loadingPasswordSubmit = false;
       $timeout(function () {
         $scope.errorMsgPassword = null;
@@ -99,14 +98,14 @@ angular.module('AcLogin').controller('LoginController', ['$scope', '$http', '$ti
       method: 'POST',
       url: '/signin',
       data: {user: $scope.loginForm, authenticity_token: csrf_token}
-    }).then(function(response){
+    }).success(function(response){
       $scope.successMsgLogin = "Successfully logged in";
-      $window.location.href = response.redirect_url;
-    }, function (response) {
+      $window.location.href = response.data.redirect_url;
+    }).error(function (response) {
       $scope.loadingLoginSubmit = false;
       $scope.loginForm.password = null;
       $scope.passwordForm.email = $scope.loginForm.email;
-      $scope.errorMsgLogin = response.server_message;
+      $scope.errorMsgLogin = response.data.server_message;
       $timeout(function(){
         $scope.errorMsgLogin = "";
       }, 5000);

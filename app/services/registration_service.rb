@@ -16,9 +16,6 @@ module RegistrationService
     if user_params[:authentication].present?
       user_params[:email] ||= user_params[:authentication][:email]
       user_params[:name] ||= user_params[:authentication][:name]
-      user_params[:currently_at] ||= user_params[:authentication][:currently_at]
-      user_params[:current_city] ||= user_params[:authentication][:current_city]
-      user_params[:profile_title] ||= user_params[:authentication][:profile_title]
     end
     user_params[:email] = user_params[:email].to_s.downcase
     taken_users = ::User.with_confirmed_email(user_params[:email])
@@ -26,21 +23,12 @@ module RegistrationService
 
     user_request = ::UserRequest.find_or_initialize_by(:email => user_params[:email])
     user_request.name = user_params[:name]
-    user_request.profile_title = user_params[:profile_title]
     user_request.password = user_params[:password]
     if user_params[:dob_day].present? && user_params[:dob_month].present? && user_params[:dob_year].present?
       user_request.dob = [user_params[:dob_day], user_params[:dob_month], user_params[:dob_year]].join("/")
     end
 
-    currently_at_id = user_params[:currently_at].try(:[], :id)
-    currently_at_id = ::Institution.create_from_id(currently_at_id) if currently_at_id.present?
-    user_request.currently_at_id = currently_at_id
-
-    current_city_id = user_params[:current_city].try(:[], :id)
-    current_city = ::Location.where(:_id => current_city_id).first if current_city_id.present?
-    user_request.current_city = current_city
-
-    user_request.confirmed_at = nil unless user_request.valid_token?(user_params[:invite_token])
+    user_request.confirmed_at = nil unless user_request.token == user_params[:invite_token]
 
     user_request.authentications = []
     if user_params[:authentication].present?
@@ -71,9 +59,6 @@ module RegistrationService
 
     user = ::User.new
     user.name = user_request.name
-    user.currently_at = user_request.currently_at
-    user.current_city = user_request.current_city
-    user.profile_title = user_request.profile_title
     user.dob = user_request.dob
 
     email_doc = user.emails.build

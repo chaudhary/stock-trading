@@ -160,8 +160,6 @@ $(document).bind('profile_sync_success', function (event) {
     var scope = $("[ng-controller='VerifyBioletController']").scope();
     scope.addAuthentication(response.authentication);
     scope.$apply();
-  }else if(response.key == 'analytics'){
-    window.location.reload();
   }
 });
 
@@ -512,21 +510,6 @@ function get_page_range (page, total_pages, size) {
 };
 
 
-function recordRegAnalytics(is_network, action, via, callback){
-  var local_action = null;
-  if(is_network){
-    local_action = "Network/";
-  }else{
-    local_action = "Website/";
-  }
-  var is_signup = (window.location.pathname.indexOf('signup') != -1);
-  if(is_signup){
-    local_action = local_action + "Signup/";
-  }
-  local_action = local_action + action;
-  if(via) via = "via: " + via;
-  recordAnalyticsEvent("Registration", local_action, via, null, {hitCallback: callback});
-}
 
 function resetSharedFiles(shared_files){
   if(!(shared_files)) return false;

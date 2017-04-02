@@ -18,4 +18,9 @@ StockTrading::Application.routes.draw do
   devise_for :users, skip: [:registrations, :confirmations, :passwords], controllers: {
       :omniauth_callbacks => "omniauth"
   }, path: '', path_names: {sign_out: "signout", sign_in: 'signin'}
+
+  get '/social_sync/:provider/:key' => 'omniauth#social_sync'
+  match '/auth/:provider/callback' => 'omniauth#create'
+  match '/auth/:provider/custom_callback/:sync_data_id' => 'omniauth#callback', as: :auth_callback
+  match '/auth/failure' => 'omniauth#failure'
 end

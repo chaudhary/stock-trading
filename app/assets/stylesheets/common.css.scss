@@ -21,6 +21,10 @@
   text-decoration: inherit;
 }
 
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}
+
 body{
   font-size: 13px;
   color: #666;

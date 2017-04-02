@@ -7,6 +7,12 @@ class OmniauthController < ApplicationController
 
 #  after_filter :unset_session_variables, only: [:callback]
 
+  def social_sync
+    metadata = {key: params[:key], host: request.host, user_id: current_user.try(:id).try(:to_s)}
+    session[:omniauth_metadata] = metadata
+    redirect_to "/auth/#{params[:provider]}?#{URI.encode_www_form(metadata)}"
+  end
+
   def create
     metadata = request.env['omniauth.params']
     auth_data = request.env['omniauth.auth']
@@ -18,8 +24,6 @@ class OmniauthController < ApplicationController
     sync_data = ::WebsiteSignupData.new(:data => dup_auth_data.merge(session_data), :omniauth_metadata => metadata)
     sync_data.save!
     session[:sync_data_id] = sync_data.id
-
-    ::FetchFbFriendsJob.new(sync_data).enqueue_job if params[:provider] == ::Authentication::FACEBOOK
 
     metadata = ::Hashie::Mash.new(metadata)
 
@@ -54,7 +58,7 @@ class OmniauthController < ApplicationController
     end
     user = current_user
     user ||= ::User.where(:_id => metadata[:user_id]).first if metadata[:user_id].present?
-    @response, @user = OmniAuthService.new(auth_data, metadata, current_college, user).add_authentication(sync_data.id)
+    @response, @user = OmniAuthService.new(auth_data, metadata, user).add_authentication(sync_data.id)
 
     if @user.blank? && current_user.blank? && @response[:authentication][:email].present? && @response[:key] == ::OmniAuthService::USER_SIGNUP
       user_params = {authentication: @response[:authentication]}

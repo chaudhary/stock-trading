@@ -1,0 +1,43 @@
+<script type="text/javascript">
+  <% if @response[:key] == OmniAuthService::USER_SIGNUP %>
+    <% if @user.blank? %>
+      triggerEvent('ac_signup_success');
+    <% else %>
+      triggerEvent('ac_signup_failure');
+    <% end %>
+  <% elsif @response[:key] == 'trading' %>
+      triggerEvent('trading_sync_success');
+  <% else %>
+    <% if @user.present? %>
+      triggerEvent('profile_sync_success');
+    <% else %>
+      triggerEvent('profile_sync_failure');
+    <% end %>
+  <% end %>
+
+  function triggerEvent(name) {
+    var elem = window.opener.document.getElementsByTagName('body')[0];
+    var event;
+    if (window.opener.document.createEvent) {
+        event = window.opener.document.createEvent("HTMLEvents");
+        event.initEvent(name, true, true);
+    } else {
+        event = window.opener.document.createEventObject();
+        event.eventType = name;
+    }
+    event.eventName = name;
+    event.jsonData = <%= @response.to_json.html_safe %>;
+    if (document.createEvent) {
+        elem.dispatchEvent(event);
+    } else {
+        elem.fireEvent("on" + event.eventType, event);
+    }
+  }
+  window.close();
+
+</script>
+
+
+<div style="padding: 200px 185px">
+  Returning Back to AlmaConnect ...
+</div>
